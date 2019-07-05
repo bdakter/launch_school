@@ -1,9 +1,13 @@
 require_relative './spec_helper'
-require_relative '../calc'
+require '/home/boruch/repositories/ls/calc/calc.rb'
+
+describe "#get_data" do
+  # TODO: simulate user input
+end
 
 describe "#compute" do
   it "sums two numbers" do
-    oper = :+
+    oper = :a
 
     sum1  = compute(1,    2,	oper)		# 3
     sum2	= compute(100,  99, oper)		# 199

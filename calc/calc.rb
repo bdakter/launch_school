@@ -7,7 +7,7 @@ def get_data
   puts "Second number: >>"
   second = gets.chomp.to_f
 
-  puts "Add, minus, mult or divide? >>"
+  puts "Add, minus, mult or div? >>"
   operation = gets.chomp.downcase.to_sym
 
   return first, second, operation

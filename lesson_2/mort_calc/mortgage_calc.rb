@@ -12,7 +12,7 @@ end
 def get_info(message)
   loop do
     puts MESSAGES[message]
-    
+
     input =
       case message
       when 'borrowing'

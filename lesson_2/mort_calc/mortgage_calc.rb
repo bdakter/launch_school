@@ -26,23 +26,15 @@ def get_info(message)
   end
 end
 
-loop do
-  loan_amount = get_info('borrowing')
-  annual_rate = get_info('annual_rate')
-  loan_years = get_info('loan_years')
+loan_amount = get_info('borrowing')
+annual_rate = get_info('annual_rate')
+loan_years = get_info('loan_years')
 
-  annual_percent = annual_rate / 100
-  monthly_percent = annual_percent / 12
-  loan_months = loan_years * 12
+annual_percent = annual_rate / 100
+monthly_percent = annual_percent / 12
+loan_months = loan_years * 12
 
-  monthly_payment = loan_amount *
-                    (monthly_percent /
-                    (1 - (1 + monthly_percent)**-loan_months))
+monthly_payment = (loan_amount * (monthly_percent /
+  (1 - (1 + monthly_percent)**-loan_months)))
 
-  puts "your monthly payment is #{monthly_payment}"
-
-  puts "Another calculation? (Y/N) : "
-  break unless gets.chomp.downcase == 'y'
-end
-
-puts "Good luck on your dream purchase :)"
+puts"your monthly payment is #{monthly_payment}"

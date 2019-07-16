@@ -5,12 +5,13 @@ def reverse_words(str)
   new_array = []
 
   str_array.each do |i|
-     if i.length >= 5
+    if i.length >= 5
       new_array << i.reverse
-     else 
-      new_array << i 
+    else
+      new_array << i
     end
   end
+
   new_array.join(' ')
 end
 

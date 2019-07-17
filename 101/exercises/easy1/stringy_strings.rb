@@ -1,7 +1,7 @@
 #! /usr/bin/env ruby
 
 def stringy(int, start = 1)
-  other_digit = [0, 1].drop(start)[0]
+  other_digit = [1, 0].drop(start)[0]
   string = []
   int.times do |i|
     string << (i.even? ? start : other_digit)
@@ -9,7 +9,6 @@ def stringy(int, start = 1)
   string.join
 end
 
-require 'pry'; binding.pry
 puts stringy(3) == '101'
 puts stringy(9) == '101010101'
 puts stringy(4) == '1010'

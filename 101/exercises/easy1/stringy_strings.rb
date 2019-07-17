@@ -1,7 +1,7 @@
 #! /usr/bin/env ruby
 
 def stringy(int, start = 1)
-  other_digit = (start == 1 ? 0 : 1)
+  other_digit = [1, 0].drop(start)[0]
   string = []
   int.times do |i|
     string << (i.even? ? start : other_digit)

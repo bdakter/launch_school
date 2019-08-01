@@ -22,3 +22,16 @@ puts real_palindrome?("Madam, I'm Adam") == true
 puts real_palindrome?('356653') == true
 puts real_palindrome?('356a653') == true
 puts real_palindrome?('123ab321') == false
+
+=begin
+Alternative implementation:
+def palindrome?(str)
+  # require 'pry'; binding.pry
+  str_array = str.chars
+  rev_array = []
+  while (char = str_array.pop)
+    rev_array << char
+  end
+  rev_array.join == str
+end
+=end

@@ -1,0 +1,16 @@
+welcome: |+
+  -------------------------------------------------------------
+  ---- Welcome to Rock, Paper, Scissors, Lizard and Spock  ----
+  -------------------------------------------------------------
+
+  This game will run for 5 rounds before declaring a winner.
+
+choice_prompt: |
+  Options:
+      (R)ock
+      (P)apper
+      (S)cissors
+      (L)izard
+      (Sp)ock
+  Enter the letter(s) representing your choice:
+  =>

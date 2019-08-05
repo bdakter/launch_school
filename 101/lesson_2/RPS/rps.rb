@@ -1,4 +1,6 @@
 #! /usr/bin/env ruby
+# frozen_string_literal:true
+
 require 'yaml'
 
 MESSAGES = YAML.load_file('rps.yml')
@@ -9,15 +11,13 @@ VALID_CHOICES = { 'r' => 'rock',
                   'p' => 'paper',
                   's' => 'scissors',
                   'l' => 'lizard',
-                  'sp' => 'spock' }
+                  'sp' => 'spock' }.freeze
 
 def game_loading
-  puts 'Loading game... '
-  counter = 0
-  while counter < 5
-    print '-'
+  puts 'Loading game... Please wait'
+  3.times do
+    print '-----'
     sleep(1)
-    counter += 1
   end
 end
 
@@ -29,49 +29,52 @@ def user_choice
   abbrev_choice = ''
   loop do
     print CHOICE_PROMPT
-    print '===> '
+    print '==> '
 
     abbrev_choice = gets.chomp.downcase
 
     break VALID_CHOICES[abbrev_choice] if VALID_CHOICES.include?(abbrev_choice)
-    prompt("Invalid choice")
+
+    prompt('Invalid choice')
   end
 
   VALID_CHOICES[abbrev_choice]
 end
 
-def display_choices(choice, computer_choice)
+def display_picks(choice, computer_choice)
   puts "\nChoices:\n"\
     "You:#{format('%11s', choice)}\n"\
     "Computer: #{computer_choice}\n\n"
 end
 
 def player1_win?(player1, player2)
-  options = { 'scissors' => %w(paper lizard),
-              'spock' => %w(scissors rock),
-              'lizard' => %w(paper spock),
-              'rock' => %w(scissors lizard),
-              'paper' => %w(spock rock) }
+  options = { 'scissors' => %w[paper lizard],
+              'spock' => %w[scissors rock],
+              'lizard' => %w[paper spock],
+              'rock' => %w[scissors lizard],
+              'paper' => %w[spock rock] }.freeze
 
   options[player1].include?(player2)
 end
 
-def update_scores(player, computer, scores)
+def update_scores!(player, computer, scores)
   if player1_win?(player, computer)
     scores[:you] += 1
   elsif player1_win?(computer, player)
     scores[:computer] += 1
   end
-
-  scores
 end
 
-def display_result(player, computer)
+def max_score_reached?(score)
+  score.max_by { |_k, v| v }[1] == MAX_SCORE
+end
+
+def display_round_result(player, computer)
   if player1_win?(player, computer)
     puts "You won this round!\n"
   elsif player1_win?(computer, player)
     puts "Computer won this round!\n"
-  else prompt("Tie!")
+  else prompt('Tie!')
   end
 end
 
@@ -83,46 +86,41 @@ def display_scores(scores)
 end
 
 def display_grand_winner(scores)
-  player1, player2 = scores.minmax_by { |_k, v| v }
-  if player1[1] == player2[1]
-    puts "Tie!"
-  else puts "Grand Winner: #{scores.max_by { |_k, v| v }[0]}!! \n\n"
-  end
+  puts "Grand Winner: #{scores.max_by { |_k, v| v }[0]}!! \n\n"
 end
 
 # Game play:
 loop do
-  game_loading()
+  game_loading
   system('clear')
   print WELCOME
 
-  round_counter = 1
   scores = { you: 0, computer: 0 }
-  while round_counter < 6 # Loop for rounds
-    puts '-' * 30
-    puts "Round # #{round_counter}:\n".center(20)
+  MAX_SCORE = 5
 
-    choice = user_choice()
+  until max_score_reached?(scores) # Loop for rounds
+    puts '-' * 30
+
+    choice = user_choice
     computer_choice = VALID_CHOICES.values.sample
 
     puts '-' * 30
-    display_choices(choice, computer_choice)
-    display_result(choice, computer_choice)
+    display_picks(choice, computer_choice)
+    display_round_result(choice, computer_choice)
 
-    scores = update_scores(choice, computer_choice, scores)
+    update_scores!(choice, computer_choice, scores)
     display_scores(scores)
-
-    round_counter += 1
   end
 
   display_grand_winner(scores)
 
-  prompt("Play again? (y/n)")
+  prompt('Play again? (y/n)')
+  print '==> '
   play_again = gets.chomp.downcase
-  break if ['n', 'no'].include?(play_again)
-  next if ['y', 'yes'].include?(play_again)
-  puts "Didn't understand that..."
-  break
+  break if %w[n no].include?(play_again)
+  next if %w[y yes].include?(play_again)
+
+  break puts "Didn't understand that..."
 end
 
 puts "\nBuh bye!!\n\n"

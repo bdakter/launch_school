@@ -3,7 +3,7 @@ welcome: |+
   ---- Welcome to Rock, Paper, Scissors, Lizard and Spock  ----
   -------------------------------------------------------------
 
-  This game will run for 5 rounds before declaring a winner.
+                    5 wins is the champ!
 
 choice_prompt: |
   Options:

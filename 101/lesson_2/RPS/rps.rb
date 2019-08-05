@@ -11,6 +11,16 @@ VALID_CHOICES = { 'r' => 'rock',
                   'l' => 'lizard',
                   'sp' => 'spock' }
 
+def game_loading
+  puts 'Loading game... '
+  counter = 0
+  while counter < 5
+    print '-'
+    sleep(1)
+    counter += 1
+  end
+end
+
 def prompt(message)
   puts "=> #{message}"
 end
@@ -19,6 +29,8 @@ def user_choice
   abbrev_choice = ''
   loop do
     print CHOICE_PROMPT
+    print '===> '
+
     abbrev_choice = gets.chomp.downcase
 
     break VALID_CHOICES[abbrev_choice] if VALID_CHOICES.include?(abbrev_choice)
@@ -80,20 +92,21 @@ end
 
 # Game play:
 loop do
+  game_loading()
   system('clear')
   print WELCOME
 
-  scores = { you: 0, computer: 0 }
   round_counter = 1
+  scores = { you: 0, computer: 0 }
   while round_counter < 6 # Loop for rounds
     puts '-' * 30
     puts "Round # #{round_counter}:\n".center(20)
 
     choice = user_choice()
     computer_choice = VALID_CHOICES.values.sample
+
     puts '-' * 30
     display_choices(choice, computer_choice)
-
     display_result(choice, computer_choice)
 
     scores = update_scores(choice, computer_choice, scores)

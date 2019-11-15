@@ -17,8 +17,8 @@ def hand_total(ary)
   total
 end
 
-def hit(player, deck)
-  player << deck.pop
+def hit(contestant, deck)
+  contestant << deck.pop
 end
 
 def bust?(hand)
@@ -69,9 +69,7 @@ loop do
     response = gets.downcase
     puts
 
-    if response.start_with?('h')
-      hit(player, deck)
-    end
+    hit(player, deck) if response.start_with?('h')
     break if bust?(player) || response.start_with?('s')
   end
 

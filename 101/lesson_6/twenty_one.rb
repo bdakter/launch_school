@@ -11,7 +11,7 @@ def hand_total(ary)
   end
 
   aces.each do
-    total += total <= 10 ? 11 : 1
+    total += (total <= 10 ? 11 : 1)
   end
 
   total
@@ -56,38 +56,39 @@ end
 
 # GAME PLAY
 loop do
+  system 'clear'
   deck = (([*2..10] + ['jack', 'queen', 'king', 'ace']) * 4).shuffle!
-  player = deck.pop(2)
+  human = deck.pop(2)
   dealer = deck.pop(2)
 
   # player turn
   puts "\nDealer's card: #{dealer.sample}"
 
   loop do
-    show_hand('Player', player)
+    show_hand('Player', human)
     print "\n(H)it or (S)tay? => "
     response = gets.downcase
-    puts
+    puts ''
 
-    hit(player, deck) if response.start_with?('h')
-    break if bust?(player) || response.start_with?('s')
+    hit(human, deck) if response.start_with?('h')
+    break if bust?(human) || response.start_with?('s')
   end
 
   # dealer turn
-  unless bust?(player)
+  unless bust?(human)
     loop do
       break if hand_total(dealer) >= 17
       hit(dealer, deck)
     end
   end
 
-  show_hand('Player', player)
+  show_hand('Player', human)
   show_hand('Dealer', dealer)
-  print_game_result(player, dealer)
+  print_game_result(human, dealer)
 
   print "\nPlay again? (Y/N) => "
-  response = gets.chomp.downcase
-  break unless response.start_with?('y')
+  
+  break unless gets.chomp.downcase.start_with?('y')
 end
 
 puts 'Ta da!'

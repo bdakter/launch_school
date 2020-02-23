@@ -1,15 +1,8 @@
 #! /usr/bin/env ruby
 
+
 module Hand
   attr_accessor :cards
-
-  def hit
-
-  end
-
-  def stay
-
-  end
 
   def add_card_to_hand(card)
     cards << card
@@ -32,8 +25,7 @@ module Hand
     total > 21
   end
 
-  def total  
-# require 'pry'; binding.pry
+  def total
     regulars, aces = faces.partition { |e| e != 'ace' }
     sum = 0
 
@@ -47,24 +39,18 @@ module Hand
 
     sum
   end
-
 end
-
-
 
 class Human
   include Hand
 
   def initialize
     @cards = []
-
   end
-
 
   def show_initial_cards
     show_hand_and_total
   end
-
 end
 
 class Dealer
@@ -81,11 +67,7 @@ class Dealer
   def under_17?
     total <= 17
   end
-
 end
-
-
-
 
 class Deck
   attr_accessor :cards
@@ -93,14 +75,12 @@ class Deck
   SUITS = %w[hearts spades diamonds clubs]
   FACES = [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 'jack', 'king', 'queen', 'ace']
 
-
   def initialize
     @cards = []
 
     SUITS.each do |s|
       FACES.each do |f|
         @cards << Card.new(s, f)
-        
       end
     end
 
@@ -110,14 +90,7 @@ class Deck
   def deal
     @cards.pop
   end
-
-  def card_value
-
-  end
 end
-
-
-
 
 class Card
   attr_accessor :suit, :face
@@ -130,10 +103,7 @@ class Card
   def to_s
     "#{face} of #{suit}"
   end
-
 end
-
-
 
 # Orchestrator engine
 class Game
@@ -143,7 +113,6 @@ class Game
     @human = Human.new
     @dealer = Dealer.new
     @deck = Deck.new
-
   end
 
   def print_welcome_message
@@ -162,16 +131,17 @@ class Game
   end
 
   def show_initial_hands
-    [human, dealer].each { |player| player.show_initial_cards }
+    [human, dealer].each(&:show_initial_cards)
   end
 
   def prompt_human
     puts ''
-    puts "Hit or Stay (H/S): "
+    puts 'Hit or Stay (H/S): '
     response = nil
     loop do
       response = gets.chomp.downcase
       break if %w[h s].include? response
+
       puts 'Invalid choice.'
       print '=> '
     end
@@ -181,27 +151,21 @@ class Game
 
   def human_turn
     loop do
-      response = prompt_human
+      break unless prompt_human == 'h'
 
-      if response == 'h'
-        human.add_card_to_hand(deck.deal)
-        human.show_hand_and_total
-        break if human.busted?
-      
-      else
-        break
-      end
+      human.add_card_to_hand(deck.deal)
+      human.show_hand_and_total
+      break if human.busted?
     end
   end
 
   def dealer_turn
-    unless human.busted?
-      while dealer.under_17?
-        dealer.add_card_to_hand(deck.deal)
-        break if dealer.busted?
-      end
-    end
+    return if human.busted?
 
+    while dealer.under_17?
+      dealer.add_card_to_hand(deck.deal)
+      break if dealer.busted?
+    end
   end
 
   def highest_score
@@ -251,6 +215,3 @@ class Game
 end
 
 Game.new.start
-
-# d = Deck.new
-

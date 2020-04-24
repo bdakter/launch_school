@@ -1,5 +1,6 @@
 #! /usr/bin/env ruby
 
+# item class
 class Todo
   DONE_MARKER = 'X'
   NOT_DONE_MARKER = ' '
@@ -29,6 +30,7 @@ class Todo
   end
 end
 
+# collection class
 class TodoList
   attr_accessor :title
 

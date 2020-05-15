@@ -1,0 +1,12 @@
+desc 'Say hello'
+task :hello do
+  puts 'Hello there. "hello task".'
+end
+
+desc 'Say goodbye'
+task :bye do
+  puts 'bye now. "bye task"'
+end
+
+desc 'Do everything'
+task :default => [:hello, :bye]
